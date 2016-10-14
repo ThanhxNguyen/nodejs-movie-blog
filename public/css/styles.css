@@ -1,0 +1,48 @@
+.custom-label {
+    font-size: 1em;
+    color: black;
+    font-weight: bold;
+}
+
+.form-group label.control-label {
+    font-size: 1.3em;
+    font-weight: bold;
+}
+
+.form-group .checkbox label, .form-group .radio label, .form-group label {
+    color: black;
+}
+
+/* Wrapper for page content to push down footer */
+#wrapper {
+    min-height: 100%;
+    height: auto;
+    /* Negative indent footer by its height */
+    margin: 0 auto 60px;
+    /* Pad bottom by footer height */
+    padding: 0 0 60px 0;
+}
+
+.footer {
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: auto;
+    background-color: #3e3f3a;
+    /*margin-top: 60px;*/
+}
+
+a, a:focus, a:hover {
+    color: #ffffff;   
+}
+
+.list-group-item:hover {
+    background-color: #eee;
+}
+
+.poster {
+    height: 350px;
+}
+
+.dark-bg {
+    background-color: #3e3f3a !important;
+}

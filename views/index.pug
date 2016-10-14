@@ -1,0 +1,80 @@
+html
+    include ./fragments/header
+    body
+        include ./fragments/navbar
+
+    div#wrapper
+        div.container-fluid
+            div.row
+                div.col-md-10.col-md-offset-1
+                    //- buttons panel
+                    div.panel.panel-default
+                        div.panel-body
+
+                            nav.navbar.navbar-info
+                                div.container-fluid
+                                    //- navbar collapse
+                                    div.navbar-header
+                                        button.navbar-toggle(data-toggle='collapse', data-target='.movie-menu')
+                                            i(class='fa fa-search-plus fa-lg')
+                                    //- end navbar collapse
+
+                                    div.navbar-collapse.collapse.navbar-inverse-collapse.movie-menu
+                                        ul.nav.navbar-nav
+                                            li #[a(href='/') Popular]
+                                            li #[a(href='/showing') Showing]
+                                            li #[a(href='/comming') Comming]
+                                            li #[a(href='/kids') Kids]
+                                            li #[a(href='/best/2016') Best 2016]
+                                            //-li(class='dropdown')
+                                            //-    a(data-target='#', class='dropdown-toggle', data-toggle='dropdown') Best in #[span.caret]
+                                            //-    ul.dropdown-menu
+                                            //-        li #[a(href='/best/2016') 2016]
+                                            //-        li #[a(href='/best/2015') 2015]
+                                            //-        li #[a(href='/best/2014') 2014]
+                    //- movies gallery
+                    div.panel.panel-default
+                        div.panel-body
+                            div.row
+                                each movie in data.results
+                                    - var poster= (movie.poster_path == null) ? movie.backdrop_path : movie.poster_path;
+                                    div.col-sm-6
+                                        div.panel.panel-default
+                                            div.panel-body
+                                                div.row
+                                                    //- poster
+                                                    div.col-sm-6
+                                                        a(href='#')
+                                                            img(src='https://image.tmdb.org/t/p/w500/'+ poster, class='img-responsive poster', alt='MOVIE POSTER')
+                                                    //- movie content
+                                                    div.col-sm-6
+                                                        h4
+                                                            b #{movie.title}
+
+                                                        //- loop through genre_ids array and get the name from it
+                                                        - var genresVal = '';
+                                                        each id in movie.genre_ids
+                                                            each g in genres
+                                                                if g.id == id
+                                                                    - genresVal += g.name + ' | '
+                                                        p= genresVal.substr(0, genresVal.length -2)
+                                                        //- release date
+                                                        p(class='text-muted')
+                                                            i Released: #{movie.release_date}
+                                                        //- rating
+                                                        p Rating:&nbsp;
+                                                            b #{movie.vote_average}&nbsp;
+                                                            i(class='fa fa-star fa-lg')
+                                                        p
+                                                            a(href='', class='btn btn-info btn-raised btn-sm') View
+                                                        hr
+                                                        p #{movie.overview.substr(0, 100) + '...'}
+
+
+                                else
+                                    h3 No Content Available!
+
+
+    include ./fragments/scripting
+    include ./fragments/footer
+
