@@ -44,7 +44,7 @@ html
                                                 div.row
                                                     //- poster
                                                     div.col-sm-6
-                                                        a(href='#')
+                                                        a(href='/movie/' + movie.id)
                                                             img(src='https://image.tmdb.org/t/p/w500/'+ poster, class='img-responsive poster', alt='MOVIE POSTER')
                                                     //- movie content
                                                     div.col-sm-6
@@ -66,7 +66,7 @@ html
                                                             b #{movie.vote_average}&nbsp;
                                                             i(class='fa fa-star fa-lg')
                                                         p
-                                                            a(href='', class='btn btn-info btn-raised btn-sm') View
+                                                            a(href='/movie/' + movie.id, class='btn btn-info btn-raised btn-sm') View
                                                         hr
                                                         p #{movie.overview.substr(0, 100) + '...'}
 

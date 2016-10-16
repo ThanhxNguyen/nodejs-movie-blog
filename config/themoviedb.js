@@ -1,12 +1,12 @@
-let apiKey = '1bd3f3a91c22eef0c9d9c15212f43593';
+var apiKey = '1bd3f3a91c22eef0c9d9c15212f43593';
 
-let baseMovieUrl = 'https://api.themoviedb.org/3/';
+var baseMovieUrl = 'https://api.themoviedb.org/3/';
 
-let baseImageUrl = 'https://image.tmdb.org/t/p/';
+var baseImageUrl = 'https://image.tmdb.org/t/p/';
 
-let discoverSearchUrl = baseMovieUrl + 'discover/movie?api_key=' + apiKey + '&';
+var discoverSearchUrl = baseMovieUrl + 'discover/movie?api_key=' + apiKey + '&';
 
-let genres = [
+var genres = [
     {
         id: 28,
         name: "Action"
@@ -85,11 +85,21 @@ let genres = [
     }
 ];
 
-let tmdb = {
+var getSingleMovieUrl = function (movieId) {
+    return baseMovieUrl + 'movie/' + movieId + '?api_key=' + apiKey;
+}
+
+var getCastsForMovie = function (movieId) {
+    return baseMovieUrl + 'movie/' + movieId + '/credits' + '?api_key=' + apiKey;
+}
+
+var tmdb = {
     baseMovieUrl: baseMovieUrl,
     baseImageUrl: baseImageUrl,
     discoverSearchUrl: discoverSearchUrl,
-    genres: genres
+    genres: genres,
+    getSingleMovieUrl: getSingleMovieUrl,
+    getCastsForMovie: getCastsForMovie
 };
 
 module.exports = tmdb;

@@ -1,0 +1,70 @@
+html
+    include ../fragments/header
+    body
+        include ../fragments/navbar
+
+    div#wrapper
+        div.container-fluid
+            div.row
+                div.col-sm-10.col-sm-offset-1
+                    div.panel.panel-default
+                        div.panel-heading.dark-bg
+                            h4(class='text-center white-text') MOVIE OVERVIEW
+                        div.panel-body
+                            div.row
+                                input(type='hidden', value= movie.id, id='movieId')
+                                div.col-sm-3
+                                    div.panel.panel-default
+                                        div.panel-body
+                                            img(src='https://image.tmdb.org/t/p/w500/' + movie.poster_path, class='center-block img-responsive poster', alt='MOVIE POSTER')
+                                div.col-sm-9
+                                    h2
+                                        b #{movie.title}
+                                    h4
+                                        - var genresVal = '';
+                                        each genre in movie.genres
+                                            - genresVal += genre.name + ' | '
+                                        span.text-muted= genresVal.substr(0, genresVal.length - 2)
+                                    h4(class='text-muted') Released: #{movie.release_date}
+                                    h4(class='text-muted') Rating:&nbsp;
+                                        b #{movie.vote_average}&nbsp;
+                                        i(class='fa fa-star fa-lg')
+                                    p(class='text-muted') Country: #{movie.production_countries[0].name}
+                                    p(class='text-muted') Language: #{movie.spoken_languages[0].name}
+                                    p(class='text-muted') Run time: #{movie.runtime} mins
+                                    hr
+                                    h4 #{movie.overview}
+                            hr
+                    div.panel.panel-default
+                        div.panel-heading.dark-bg
+                            h4(class='text-center white-text') TOP BILLED CASTS
+                        div.panel-body
+                            i(class='fa fa-refresh fa-5x fa-spin text-center' id='castsRowSpinner')
+                            div(id='castsRow').row
+                            div.row
+                                div.col-sm-3.col-sm-offset-5
+                                    a(href='javascript:void(0)' class='btn btn-info btn-raised text-center') View All
+                    div.panel.panel-default
+                        div.panel-heading.dark-bg
+                            h4(class='text-center white-text') DISCUSSION
+                        div.panel-body
+                            div.row
+                                div(id='displayComments')
+
+                            div.row
+                                div.col-sm-12
+                                    //- Submit comment form
+                                    form.form-horizontal#commentForm(method='POST')
+                                        input(type='hidden', name='movieId', value= movie.id)
+                                        div.form-group
+                                            div.col-sm-10.col-sm-offset-1.form-border
+                                                textarea.form-control(name='comment', rows='3', placeholder='Enter your comments here...', required, minlength='5')
+
+                                        div.form-group1
+                                            div.col-sm-3.pull-right
+                                                input.btn.btn-raised.btn-info.btn-lg(type='submit', value='Save')
+
+
+    include ../fragments/scripting
+    include ../fragments/footer
+

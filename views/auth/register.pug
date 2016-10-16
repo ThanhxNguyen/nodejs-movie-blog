@@ -1,0 +1,33 @@
+html
+    include ../fragments/header
+    body
+        include ../fragments/navbar
+
+    div#wrapper
+        div.container-fluid
+            div.row
+                div.col-md-8.col-md-offset-2
+                    div.panel.panel-default
+                        div.panel-heading
+                            h1.page-header.text-center Registration Form
+                        div.panel-body
+                            form.form-horizontal#registerForm(method='POST', action='/auth/register')
+                                div.form-group
+                                    label.control-label.col-md-3 Name
+                                    div.col-md-7
+                                        input.form-control(type='text', name='name', placeholder='Enter name...', required, minlength='2')
+                                div.form-group
+                                    label.control-label.col-md-3 Email
+                                    div.col-md-7
+                                        input.form-control(type='email', name='email', placeholder='Email...', required)
+                                div.form-group
+                                    label.control-label.col-md-3 Password
+                                    div.col-md-7
+                                        input.form-control(type='password', name='password', placeholder='Enter password...', required, minlength='6')
+                                div.form-group
+                                    div.col-md-3.col-md-offset-8
+                                        input.btn.btn-raised.btn-info(type='submit', value='Register')
+
+    include ../fragments/scripting
+    include ../fragments/footer
+

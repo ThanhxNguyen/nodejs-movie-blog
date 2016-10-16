@@ -46,3 +46,20 @@ a, a:focus, a:hover {
 .dark-bg {
     background-color: #3e3f3a !important;
 }
+
+.white-text {
+    color: #FFFFFF;
+}
+
+.form-border {
+    border: 1px solid #757575;
+    border-radius: 5px;
+}
+
+.main-comment-block {
+    margin-left: 50px;
+}
+
+.sub-comment-block {
+    margin-left: 100px;
+}

@@ -3,6 +3,10 @@ var router = express.Router();
 var request = require('request');
 var tmdb = require('../config/themoviedb');
 
+var Comment = require('../models/Comment');
+
+var AuthController = require('../controllers/AuthController');
+
 
 
 /* GET home page. */
@@ -51,15 +55,87 @@ router.get('/best/:year', function(req, res, next) {
 
 });
 
+//get single movie
+router.get('/movie/:movieId', AuthController.isUserLoggedin, function (req, res, next) {
+    req.session.redirectTo = '/movie/' + req.params.movieId;
+    request(tmdb.getSingleMovieUrl(req.params.movieId), function (err, response, data) {
+        if(!err && response.statusCode == 200) {
 
+            res.render('movies/movie', {title: "Movie Page", movie: JSON.parse(data), genres: tmdb.genres});
+        }
+    });
+});
 
-// router.get('/test', function (req, res, next) {
-//   request('https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=1bd3f3a91c22eef0c9d9c15212f43593', function (err, response, data) {
-//     if(!err && response.statusCode == 200) {
-//       res.json(JSON.parse(data));
-//     }
-//   });
-// });
+router.get('/movie/:movieId/comments', AuthController.isUserLoggedin, function(req, res, next) {
+    Comment.find({movieId: req.params.movieId})
+        .populate('postedBy', 'name')
+        .exec(function(err, comments) {
+            if(err)
+                console.log('error getting comments');
 
+            res.json(comments);
+        });
+});
+
+router.post('/movie/:movieId/comment', AuthController.isUserLoggedin, function (req, res, next) {
+    var commentData = {
+        postedBy: req.user._id,
+        content: req.body.comment,
+        movieId: req.params.movieId
+    };
+    var newComment = new Comment(commentData);
+
+    //save comment
+    newComment.save(function(err, comment) {
+        if(err)
+            console.log('error saving comment');
+        // res.json(comment);
+        //get this new comment with user info
+        Comment.findOne({_id: comment._id})
+            .populate('postedBy', 'name')
+            .exec(function(err, data) {
+                if(err)
+                    console.log('error get latest comment');
+
+                res.json(data);
+            });
+    });
+
+});
+
+router.post('/movie/:movieId/comment/:commentId', AuthController.isUserLoggedin, function(req, res, next) {
+
+    let newSubComment = {
+        postedBy: req.user.name,
+        content: req.body.subComment
+    };
+
+    Comment.findById(req.params.commentId, function(err, comment) {
+        // res.json(comment);
+        comment.subComments.push(newSubComment);
+
+        comment.save(function(err) {
+            if(err)
+                console.log('error insert sub comment');
+
+            newSubComment.parentCommentId = req.params.commentId;
+            res.json(newSubComment);
+        });
+    });
+
+    // Comment.findByIdAndUpdate(
+    //     req.params.commendId,
+    //     {$push: {"subComments": newSubComment}},
+    //     {safe: true, upsert: true, new : true},
+    //     function(err, model) {
+    //         if(err)
+    //             console.log('error insert sub comment');
+    //
+    //         //append commend id into response
+    //         newSubComment.parentCommentId = req.params.commentId;
+    //         res.json(newSubComment);
+    //     }
+    // );
+});
 
 module.exports = router;
