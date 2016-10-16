@@ -4,7 +4,7 @@ var passport = require('passport');
 
 //show login form
 router.get('/login', function (req, res, next) {
-    res.render('auth/login', {title: 'Login Page'});
+    res.render('auth/login', {title: 'Login Page', message: req.flash('loginMessage')});
 });
 
 router.get('/logout', function (req, res, next) {
@@ -24,7 +24,7 @@ router.post('/login',
 
 //show sign up form
 router.get('/register', function (req, res, next) {
-    res.render('auth/register', {title: 'Signup Page'});
+    res.render('auth/register', {title: 'Signup Page', message: req.flash('registerMessage')});
 });
 
 router.post('/register',

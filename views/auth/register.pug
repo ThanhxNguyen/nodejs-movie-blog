@@ -11,6 +11,8 @@ html
                         div.panel-heading
                             h1.page-header.text-center Registration Form
                         div.panel-body
+                            if(message.length > 0)
+                                div.alert.alert-warning #{message}
                             form.form-horizontal#registerForm(method='POST', action='/auth/register')
                                 div.form-group
                                     label.control-label.col-md-3 Name

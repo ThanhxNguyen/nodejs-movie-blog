@@ -35,7 +35,7 @@ module.exports = function(passport) {
 
                     // check if user already exists
                     if (user) {
-                        return done(null, false, null);
+                        return done(null, false, req.flash('registerMessage', 'The email is already existed!'));
                     } else {
                         //all good to go
                         var newUser = new User();
@@ -76,11 +76,11 @@ module.exports = function(passport) {
 
                 // if no user is found, return the message
                 if (!user)
-                    return done(null, false, null);
+                    return done(null, false, req.flash('loginMessage', 'Incorrect email!'));
 
                 //if password is not matched
                 if (!user.validatePassword(password))
-                    return done(null, false, null); // create the loginMessage and save it to session as flashdata
+                    return done(null, false, req.flash('loginMessage', 'Incorrect password!')); // create the loginMessage and save it to session as flashdata
 
                 //all good to go
                 return done(null, user);

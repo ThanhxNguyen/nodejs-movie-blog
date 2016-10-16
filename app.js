@@ -5,6 +5,8 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+var flash = require('connect-flash');
+
 var mongoose = require('mongoose');
 var DBConfig = require('./config/db');
 
@@ -43,6 +45,8 @@ app.use(expressSession({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(flash());
 
 //load up passport config
 require('./config/localpassport')(passport);
